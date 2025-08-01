@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis: Jalan Kebangkitan Hakiki</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfdfa; /* Off-white, slightly warm */
+            scroll-behavior: smooth;
+        }
+        .section-title h2 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: #588157; /* Fern Green */
+            border-radius: 2px;
+        }
+        .card-hover {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .tag-cloud span {
+            transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+        .tag-cloud span:hover {
+            transform: scale(1.1);
+            background-color: #A98467; /* Muted Terracotta */
+            color: white;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 24px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: #BC6C25; /* Ochre Brown */
+            border: 5px solid #3A5A40; /* Dark Moss Green */
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 24px;
+            bottom: 0;
+            width: 4px;
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        /* Custom Colors */
+        .bg-theme-dark { background-color: #3A5A40; }
+        .text-theme-accent-light { color: #DDE5B6; }
+        .text-theme-accent-dark { color: #3A5A40; }
+        .bg-theme-accent { background-color: #588157; }
+        .bg-theme-secondary { background-color: #BC6C25; }
+        .bg-theme-failure { background-color: #FAE1DD; }
+        .text-theme-failure { color: #9d4e46; }
+        .border-theme-failure { border-color: #c78b83; }
+        .bg-theme-success { background-color: #E9F5DB; }
+        .text-theme-success { color: #588157; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-theme-dark text-white text-center py-16 px-4 shadow-2xl">
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight">Jalan Kebangkitan Hakiki</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-theme-accent-light">Visualisasi Manhaj Pembentukan Partai Politik Islam Berdasarkan Kitab At-Takattul al-Hizbiy</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-10">
+
+        <section id="kegagalan" class="mb-24">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">1. Diagnosis Kegagalan Gerakan Terdahulu</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Kegagalan bersumber dari kelemahan fundamental pada fondasi dan metode, serta infiltrasi pemikiran asing yang merusak.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold mb-6 text-center">4 Pilar Kegagalan vs. Fondasi Ideal</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-3 bg-theme-failure rounded-lg">
+                            <span class="text-2xl">❌</span>
+                            <div class="mt-2"><strong class="text-theme-failure">Fikrah Kabur:</strong> Pemikiran umum, tidak jernih, dan kompromistis.</div>
+                        </div>
+                        <div class="p-3 bg-theme-success rounded-lg">
+                            <span class="text-2xl">✅</span>
+                            <div class="mt-2"><strong class="text-theme-success">Fikrah Jernih:</strong> Ideologi Islam yang murni dan spesifik.</div>
+                        </div>
+                        <div class="p-3 bg-theme-failure rounded-lg">
+                            <span class="text-2xl">❌</span>
+                            <div class="mt-2"><strong class="text-theme-failure">Thariqah Acak:</strong> Metode tidak jelas dan simpang siur.</div>
+                        </div>
+                        <div class="p-3 bg-theme-success rounded-lg">
+                            <span class="text-2xl">✅</span>
+                            <div class="mt-2"><strong class="text-theme-success">Thariqah Jelas:</strong> Metode baku yang mengikuti sirah Rasulullah.</div>
+                        </div>
+                        <div class="p-3 bg-theme-failure rounded-lg">
+                            <span class="text-2xl">❌</span>
+                            <div class="mt-2"><strong class="text-theme-failure">Aktivis Emosional:</strong> Bertumpu pada semangat, bukan kesadaran.</div>
+                        </div>
+                         <div class="p-3 bg-theme-success rounded-lg">
+                            <span class="text-2xl">✅</span>
+                            <div class="mt-2"><strong class="text-theme-success">Aktivis Sadar:</strong> Memiliki kesadaran ideologis yang mendalam.</div>
+                        </div>
+                        <div class="p-3 bg-theme-failure rounded-lg">
+                            <span class="text-2xl">❌</span>
+                            <div class="mt-2"><strong class="text-theme-failure">Ikatan Rapuh:</strong> Ikatan sebatas struktur atau pertemanan.</div>
+                        </div>
+                         <div class="p-3 bg-theme-success rounded-lg">
+                            <span class="text-2xl">✅</span>
+                            <div class="mt-2"><strong class="text-theme-success">Ikatan Kokoh:</strong> Ikatan akidah dan tsaqafah partai.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold mb-6 text-center">Infiltrasi Racun Pemikiran Tsaqafah Asing</h3>
+                    <div class="p-4 text-center tag-cloud flex flex-wrap justify-center items-center gap-3">
+                        <span class="text-3xl font-bold p-2 rounded-lg bg-theme-failure text-theme-failure">Sekularisme</span>
+                        <span class="text-2xl font-semibold p-2 rounded-lg bg-theme-failure text-theme-failure">Nasionalisme</span>
+                        <span class="text-xl p-2 rounded-lg bg-theme-failure text-theme-failure">Patriotisme</span>
+                        <span class="text-lg p-1 rounded-lg bg-theme-failure text-theme-failure">Pragmatisme</span>
+                        <span class="text-2xl p-2 rounded-lg bg-theme-failure text-theme-failure">Ketergantungan Asing</span>
+                        <span class="text-md p-1 rounded-lg bg-theme-failure text-theme-failure">Demokrasi</span>
+                        <span class="text-xl p-2 rounded-lg bg-theme-failure text-theme-failure">HAM</span>
+                    </div>
+                    <p class="text-center mt-6 text-gray-600">Pemikiran-pemikiran ini secara sistematis ditanamkan untuk menjauhkan umat dari pandangan hidup Islam yang komprehensif.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="jalan-keliru" class="mb-24">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">2. Jalan Keliru: Fokus Non-Politik</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Upaya kebangkitan melalui jalur sosial-amal atau perbaikan akhlak semata dinilai tidak akan mencapai tujuan hakiki karena tidak menyentuh akar persoalan sistemik.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover border-t-8 border-theme-failure">
+                    <h3 class="text-2xl font-bold text-theme-failure mb-3">❌ Gerakan Sosial (Jam'iyah Khairiyah)</h3>
+                    <p class="font-semibold">Fokus: Mendirikan sekolah, rumah sakit, panti asuhan.</p>
+                    <p class="mt-3 text-gray-600"><strong>Analisis Kelemahan:</strong> Menjadi "katup pengaman" yang menyalurkan energi umat ke aktivitas parsial. Umat merasa puas dengan amal-amal kecil sehingga semangat untuk melakukan perubahan politik yang mendasar menjadi padam.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover border-t-8 border-theme-failure">
+                    <h3 class="text-2xl font-bold text-theme-failure mb-3">❌ Gerakan Perbaikan Akhlak</h3>
+                    <p class="font-semibold">Fokus: Memperbaiki akhlak individu melalui nasihat.</p>
+                    <p class="mt-3 text-gray-600"><strong>Analisis Kelemahan:</strong> Rusaknya masyarakat disebabkan oleh rusaknya pemikiran, perasaan, dan peraturan secara kolektif. Perbaikan harus bersifat sistemik melalui perubahan pemikiran dan penerapan aturan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resep-partai" class="mb-24">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">3. Resep Partai Ideologis yang Benar</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Partai yang benar lahir dari proses alami, dimulai dari individu yang melebur dengan ideologi hingga membentuk sebuah kekuatan kolektif yang solid.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-8 md:p-12">
+                 <h3 class="text-2xl font-bold mb-8 text-center">Proses Pembentukan Kelompok</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 text-center">
+                    <div class="flex flex-col items-center card-hover p-2 rounded-lg">
+                        <div class="text-6xl mb-2">👤</div>
+                        <h4 class="font-bold text-lg">Sel Pertama</h4>
+                        <p class="text-sm text-gray-600">Individu sadar yang melebur dengan ideologi.</p>
+                    </div>
+                    <div class="flex flex-col items-center card-hover p-2 rounded-lg">
+                        <div class="text-6xl mb-2">👥</div>
+                        <h4 class="font-bold text-lg">Halqah Ula</h4>
+                        <p class="text-sm text-gray-600">Terbentuknya kelompok inti pimpinan partai.</p>
+                    </div>
+                    <div class="flex flex-col items-center card-hover p-2 rounded-lg">
+                        <div class="text-6xl mb-2">🔗</div>
+                        <h4 class="font-bold text-lg">Ikatan Ideologis</h4>
+                        <p class="text-sm text-gray-600">Akidah & tsaqafah sebagai pengikat kokoh.</p>
+                    </div>
+                     <div class="flex flex-col items-center card-hover p-2 rounded-lg">
+                        <div class="text-6xl mb-2">🌍</div>
+                        <h4 class="font-bold text-lg">Partai Ideologis</h4>
+                        <p class="text-sm text-gray-600">Siap berinteraksi dan meleburkan umat.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tahapan" class="mb-24">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">4. Tiga Tahapan Perjuangan (Marhalah)</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Pergerakan partai menempuh tiga tahapan yang jelas, sistematis, dan berurutan, dengan fokus aktivitas yang berbeda di setiap tahap.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative pl-8 py-4">
+                    <div class="timeline-line"></div>
+                    <div class="mb-16 relative timeline-item card-hover p-4 rounded-lg bg-white">
+                        <h3 class="text-xl font-bold text-theme-accent-dark">Tahap 1: Pembinaan (Tatsqif)</h3>
+                        <p class="mt-2 text-gray-600">Fokus membangun fondasi dengan mencetak kader yang kokoh secara pemikiran. Aktivitas utama adalah pembinaan intensif (halqah) untuk menanamkan tsaqafah partai yang bersifat praktis.</p>
+                    </div>
+                    <div class="mb-16 relative timeline-item card-hover p-4 rounded-lg bg-white">
+                        <h3 class="text-xl font-bold text-theme-accent-dark">Tahap 2: Interaksi (Tafa'ul)</h3>
+                        <p class="mt-2 text-gray-600">Terjun ke tengah masyarakat untuk menyebarkan ideologi dan berbenturan dengan pemikiran yang ada. Tujuannya agar ideologi partai diadopsi oleh umat dan menjadi opini umum.</p>
+                    </div>
+                    <div class="relative timeline-item card-hover p-4 rounded-lg bg-white">
+                        <h3 class="text-xl font-bold text-theme-accent-dark">Tahap 3: Penerapan (Istilamul Hukm)</h3>
+                        <p class="mt-2 text-gray-600">Menerima kekuasaan secara total dari umat untuk menerapkan ideologi secara menyeluruh dan revolusioner. Kekuasaan adalah sarana, bukan tujuan akhir.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold mb-6 text-center">Visualisasi Fokus Aktivitas</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-700">Tahap 1: Pembinaan</span>
+                                <span class="text-sm font-medium text-gray-700">Sangat Tinggi</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-theme-accent h-4 rounded-full" style="width: 95%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-700">Tahap 2: Interaksi & Perjuangan Pemikiran</span>
+                                <span class="text-sm font-medium text-gray-700">Dominan</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-theme-secondary h-4 rounded-full" style="width: 100%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-700">Tahap 3: Penerapan & Dakwah Global</span>
+                                <span class="text-sm font-medium text-gray-700">Fokus Utama</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-theme-dark h-4 rounded-full" style="width: 100%"></div></div>
+                        </div>
+                    </div>
+                     <p class="text-center mt-6 text-sm text-gray-500">Diagram ini menggambarkan intensitas fokus aktivitas pada setiap tahapan, bukan kuantitas numerik.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="bahaya" class="mb-24">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">5. Waspada! Dua Bahaya Fatal di Tahap Interaksi</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Pada tahap kedua, partai menghadapi dua bahaya yang bisa meruntuhkan seluruh perjuangan jika tidak diwaspadai dan diatasi dengan benar.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover border-t-8 border-theme-failure">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-4xl mr-4">🚨</span>Bahaya Ideologis</h3>
+                    <p class="text-lg font-semibold">Ancaman: Kompromi dengan tuntutan massa.</p>
+                    <p class="mt-3 text-gray-600">Terjadi ketika partai menuruti keinginan massa yang belum sadar dan menyimpang dari ideologi.</p>
+                    <p class="mt-4 font-bold text-theme-success p-3 bg-theme-success rounded-lg">Solusi: Berpegang teguh pada ideologi, meski harus kehilangan dukungan sesaat.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover border-t-8 border-theme-failure">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-4xl mr-4">🎭</span>Bahaya Kelas</h3>
+                    <p class="text-lg font-semibold">Ancaman: Merasa lebih tinggi dari umat (elitis).</p>
+                    <p class="mt-3 text-gray-600">Terjadi ketika aktivis partai merasa sebagai 'kelas' penguasa. Ini akan menghancurkan kepercayaan umat.</p>
+                    <p class="mt-4 font-bold text-theme-success p-3 bg-theme-success rounded-lg">Solusi: Selalu menempatkan diri sebagai pelayan umat dalam segala kondisi.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tujuan-akhir">
+            <div class="text-center mb-12 section-title">
+                <h2 class="text-3xl md:text-4xl font-bold">6. Tujuan Akhir: Peran Partai Pasca Berdirinya Negara</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-600">Perjuangan tidak berhenti saat negara tegak. Partai memiliki peran krusial dan berkelanjutan untuk menjamin kelestarian penerapan Islam.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="text-6xl mb-4 text-theme-accent">🔍</div>
+                    <h4 class="text-xl font-bold">Mengawasi Negara</h4>
+                    <p class="mt-2 text-gray-600">Mengontrol dan mengawasi jalannya pemerintahan agar tetap berada di atas rel ideologi Islam.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="text-6xl mb-4 text-theme-accent">📣</div>
+                    <h4 class="text-xl font-bold">Memimpin Umat</h4>
+                    <p class="mt-2 text-gray-600">Memimpin umat untuk melakukan koreksi (muhasabah) terhadap penguasa secara konstruktif.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="text-6xl mb-4 text-theme-accent">🌏</div>
+                    <h4 class="text-xl font-bold">Mengemban Dakwah</h4>
+                    <p class="mt-2 text-gray-600">Melanjutkan tugas mengemban dakwah Islam ke seluruh penjuru dunia sebagai risalah universal.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-10 mt-16 bg-theme-dark text-white">
+        <p>Infografis ini dibuat berdasarkan analisis kitab "At-Takattul al-Hizbiy" (Pembentukan Partai Politik Islam) karya Syaikh Taqiyuddin an-Nabhani.</p>
+        <p class="text-sm mt-2 text-gray-400">Desain & Visualisasi oleh Canvas Infographics, 2025.</p>
+    </footer>
+
+</body>
+</html>
