@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis Kitab Peraturan Hidup dalam Islam (Nizam Al-Islam)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .title-font {
+            font-family: 'Lora', serif;
+        }
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+        .arabesque-bg {
+            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+            background-color: #052e16; /* fallback color */
+        }
+        .card-content {
+            flex-grow: 1;
+        }
+        
+        /* General visualization box hover effect */
+        .viz-box, .viz-box-flow, .hukum-box, .viz-spoke, .viz-spoke-long, .viz-box-column, .org-chart-node {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .viz-box:hover, .viz-box-flow:hover, .hukum-box:hover, .viz-spoke:hover, .viz-spoke-long:hover, .viz-box-column:hover, .org-chart-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Bab 1 */
+        .viz-box { padding: 1rem; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; }
+        .viz-box.result-box { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
+        .arrow { font-size: 2rem; color: #9CA3AF; align-self: center; }
+        .arrow-down { font-size: 1.5rem; color: #9CA3AF; font-weight: bold; }
+
+        /* Bab 2 & others */
+        .viz-box-column { padding: 1.5rem; border-width: 2px; border-radius: 8px; text-align: center; }
+
+        /* Bab 7 */
+        .hukum-box { padding: 1.5rem 1rem; border-radius: 8px; border-width: 2px; border-style: solid; }
+
+        /* Bab 8 */
+        .viz-box-flow { padding: 1rem; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; width: 100%; }
+
+        /* Bab 9 */
+        .org-chart-node { padding: 0.5rem 1rem; border: 2px solid #10B981; background-color: #D1FAE5; color: #065F46; border-radius: 0.5rem; text-align: center; font-weight: 600; position: relative; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="arabesque-bg text-white py-12 shadow-lg">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold title-font mb-2">Peraturan Hidup dalam Islam</h1>
+            <h2 class="text-xl md:text-2xl font-light">Ringkasan Kitab Karya Syaikh Taqiyuddin an-Nabhani</h2>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="container mx-auto px-6 py-12">
+        <div id="chapters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+            <!-- Chapter cards will be inserted here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 bg-gray-800 text-gray-400 mt-12">
+        <p>&copy; 2024 Infografis Interaktif. Dibuat untuk tujuan edukasi.</p>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto p-8 transform scale-95">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-bold text-green-900 title-font"></h3>
+                    <p id="modal-pages" class="text-sm text-gray-500"></p>
+                </div>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl font-bold">&times;</button>
+            </div>
+            <div id="modal-body" class="prose max-w-none text-gray-700">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chaptersData = [
+            {
+                id: 1,
+                title: "Jalan Menuju Iman",
+                pages: "Halaman 7-26",
+                summary: "Membahas pembuktian akal tentang adanya Pencipta, kebutuhan pada Rasul, dan kebenaran Al-Qur'an sebagai dasar keimanan.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311a7.5 7.5 0 01-7.5 0c-1.255 0-2.42-.154-3.5-.43A12.022 12.022 0 013 18.25m15.75-6.19c-.866.247-1.729.42-2.625.52A12.038 12.038 0 0112 15.75c-1.01 0-1.976-.156-2.875-.437m7.5-12.344A7.5 7.5 0 0112 3C6.477 3 2 7.477 2 13.5c0 4.286 2.573 7.96 6.138 9.684a1.06 1.06 0 001.226 0c3.565-1.724 6.138-5.398 6.138-9.684c0-1.482-.29-2.896-.834-4.22" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Proses Berpikir Menuju Iman</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Visualisasi ini menggambarkan alur berpikir logis (aqliyah) yang mengantarkan seseorang pada keimanan yang kokoh, dimulai dari pengamatan terhadap alam semesta hingga meyakini kerasulan Nabi Muhammad SAW.</p>
+                    <div class="flex flex-wrap items-stretch justify-center gap-4 text-center">
+                        <div class="viz-box flex-1 flex flex-col justify-center p-3"><p class="font-semibold">1. Alam, Manusia, Hidup</p><small>Terbatas & Membutuhkan</small></div>
+                        <div class="arrow self-center">→</div>
+                        <div class="viz-box flex-1 flex flex-col justify-center p-3"><p class="font-semibold">2. Adanya Pencipta</p><small>Wajibul Wujud (Pasti Ada)</small></div>
+                        <div class="arrow self-center">→</div>
+                        <div class="viz-box flex-1 flex flex-col justify-center p-3"><p class="font-semibold">3. Kebutuhan pada Rasul</p><small>Pembawa Aturan Hidup</small></div>
+                        <div class="arrow self-center">→</div>
+                        <div class="viz-box flex-1 flex flex-col justify-center p-3"><p class="font-semibold">4. Al-Qur'an & Nabi SAW</p><small>Mukjizat & Bukti Kerasulan</small></div>
+                        <div class="arrow self-center">→</div>
+                        <div class="viz-box result-box flex-1 flex flex-col justify-center p-3"><p class="font-bold">IMAN</p><small>Konsekuensi Akal</small></div>
+                    </div>`
+            },
+            {
+                id: 2,
+                title: "Qadla dan Qadar",
+                pages: "Halaman 27-42",
+                summary: "Menguraikan konsep takdir dengan membaginya ke dalam area yang dikuasai manusia (pilihan) dan yang menguasai manusia (ketetapan).",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-6.866-1.986l-1.123-1.986m-1.123-1.986l-2.62 10.726c-.122.499.106 1.028.589 1.202a5.989 5.989 0 006.866-1.986l1.123-1.986" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Area Perbuatan Manusia</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Konsep takdir dalam Islam membedakan antara area perbuatan yang berada di luar kendali manusia (tidak dihisab) dan area perbuatan yang berdasarkan pilihan (akan dihisab).</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="viz-box-column bg-red-50 border-red-200">
+                            <h5 class="font-bold text-red-800 text-lg">Area di Luar Kendali Manusia (Qadha)</h5>
+                            <p class="text-sm mb-4">Perbuatan terjadi di luar kehendak manusia.</p>
+                            <ul class="list-disc list-inside text-left mx-auto max-w-xs">
+                                <li>Kelahiran & Kematian</li>
+                                <li>Warna Kulit & Jenis Kelamin</li>
+                                <li>Bencana Alam</li>
+                            </ul>
+                            <div class="mt-4 font-bold text-red-600 p-2 bg-red-100 rounded">Tidak Dihisab</div>
+                        </div>
+                        <div class="viz-box-column bg-green-50 border-green-200">
+                            <h5 class="font-bold text-green-800 text-lg">Area Pilihan Manusia</h5>
+                            <p class="text-sm mb-4">Perbuatan dilakukan berdasarkan pilihan sendiri.</p>
+                            <ul class="list-disc list-inside text-left mx-auto max-w-xs">
+                                <li>Memilih untuk Shalat atau Tidak</li>
+                                <li>Memilih untuk Jujur atau Berdusta</li>
+                                <li>Memanfaatkan Qadar (misal: pisau untuk memotong)</li>
+                            </ul>
+                            <div class="mt-4 font-bold text-green-600 p-2 bg-green-100 rounded">Akan Dihisab</div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 3,
+                title: "Kepemimpinan Berfikir",
+                pages: "Halaman 43-98",
+                summary: "Membahas dasar ikatan masyarakat yang benar (ideologi) dan membandingkan Islam dengan Kapitalisme dan Sosialisme.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962c.57-1.036 1.396-1.936 2.364-2.682a3 3 0 00-4.682-2.72m7.5-2.962c-.57 1.036-1.396 1.936-2.364 2.682a3 3 0 004.682 2.72M12 18.75v-6m-3.75-3.75a3.75 3.75 0 10-7.5 0 3.75 3.75 0 007.5 0zM12 9.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0z" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Perbandingan Tiga Ideologi</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Bab ini membandingkan Islam dengan dua ideologi besar lainnya, menunjukkan perbedaan mendasar dalam aqidah, tolok ukur, pandangan masyarakat, dan tujuan hidup.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+                        <div class="border-2 border-blue-300 rounded-lg p-4 bg-blue-50 viz-box-column">
+                            <h5 class="text-lg font-bold text-blue-800 mb-3 text-center">ISLAM</h5>
+                            <p><strong>Dasar (Aqidah):</strong> Iman kepada Allah SWT sebagai Pencipta dan Pengatur kehidupan.</p>
+                            <p><strong>Tolok Ukur Perbuatan:</strong> Halal & Haram.</p>
+                            <p><strong>Pandangan Masyarakat:</strong> Umat yang diikat oleh pemikiran, perasaan, dan peraturan Islam.</p>
+                            <p><strong>Tujuan Hidup:</strong> Meraih Ridha Allah SWT.</p>
+                            <canvas id="islamChart" class="mt-4"></canvas>
+                        </div>
+                        <div class="border-2 border-gray-300 rounded-lg p-4 bg-gray-50 viz-box-column">
+                            <h5 class="text-lg font-bold text-gray-800 mb-3 text-center">KAPITALISME</h5>
+                            <p><strong>Dasar (Aqidah):</strong> Sekularisme.</p>
+                            <p><strong>Tolok Ukur Perbuatan:</strong> Manfaat (Pragmatisme).</p>
+                            <p><strong>Pandangan Masyarakat:</strong> Kumpulan individu yang bebas.</p>
+                            <p><strong>Tujuan Hidup:</strong> Kebahagiaan materi & kebebasan individu.</p>
+                            <canvas id="kapitalismeChart" class="mt-4"></canvas>
+                        </div>
+                        <div class="border-2 border-red-300 rounded-lg p-4 bg-red-50 viz-box-column">
+                            <h5 class="text-lg font-bold text-red-800 mb-3 text-center">SOSIALISME</h5>
+                            <p><strong>Dasar (Aqidah):</strong> Materialisme Dialektika.</p>
+                            <p><strong>Tolok Ukur Perbuatan:</strong> Evolusi Materi.</p>
+                            <p><strong>Pandangan Masyarakat:</strong> Individu adalah 'gigi roda' mesin kolektif.</p>
+                            <p><strong>Tujuan Hidup:</strong> Masyarakat tanpa kelas.</p>
+                            <canvas id="sosialismeChart" class="mt-4"></canvas>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 4,
+                title: "Mengemban Dakwah Islam",
+                pages: "Halaman 99-108",
+                summary: "Menjelaskan metode dakwah yang benar: terus terang, berani, dan bertujuan mendirikan Daulah Islam.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Prinsip Mengemban Dakwah</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Dakwah Islam diemban dengan metode dan sikap yang jelas, meneladani Rasulullah SAW untuk mencapai tujuan melanjutkan kehidupan Islam secara menyeluruh.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                        <div class="viz-box-column bg-blue-50 border-blue-200">
+                            <h5 class="font-bold text-blue-800 text-lg">Tujuan Dakwah</h5>
+                            <p class="text-6xl my-4">🎯</p>
+                            <p>Melanjutkan kehidupan Islam secara total dengan mendirikan Daulah Islam (Khilafah).</p>
+                        </div>
+                        <div class="viz-box-column bg-yellow-50 border-yellow-200">
+                            <h5 class="font-bold text-yellow-800 text-lg">Metode Dakwah</h5>
+                            <p class="text-6xl my-4">📣</p>
+                            <p>Terus terang, berani, dan menantang pemikiran yang bertentangan dengan Islam tanpa kompromi.</p>
+                        </div>
+                        <div class="viz-box-column bg-green-50 border-green-200">
+                            <h5 class="font-bold text-green-800 text-lg">Sikap Pengemban Dakwah</h5>
+                            <p class="text-6xl my-4">❤️‍🔥</p>
+                            <p>Ikhlas semata-mata mencari ridha Allah, tidak terpengaruh opini yang salah, dan menggabungkan pemikiran dengan perbuatan.</p>
+                        </div>
+                        <div class="viz-box-column bg-purple-50 border-purple-200">
+                            <h5 class="font-bold text-purple-800 text-lg">Landasan</h5>
+                            <p class="text-6xl my-4">👣</p>
+                            <p>Meneladani secara penuh metode dakwah Rasulullah SAW di Makkah dan Madinah.</p>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 5,
+                title: "Hadlarah Islam",
+                pages: "Halaman 109-116",
+                summary: "Membedakan hadlarah (pemikiran) dan madaniyah (teknologi) serta membandingkannya dengan Barat.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18h16.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h6m-6 2.25h6M3.75 15h.008v.008H3.75V15zm0 2.25h.008v.008H3.75v-.008zm0 2.25h.008v.008H3.75v-.008z" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Hadlarah vs Madaniyah</h4>
+                     <p class="text-center text-sm text-gray-600 mb-6">Islam membedakan dengan tegas antara Hadlarah (khas milik umat Islam) yang tidak boleh diambil dari peradaban lain, dengan Madaniyah (produk fisik) yang boleh diambil jika bersifat umum.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="viz-box-column bg-blue-50 border-blue-200">
+                            <h5 class="font-bold text-blue-800 text-lg">Hadlarah (Peradaban)</h5>
+                            <p class="text-6xl my-4">💡</p>
+                            <p class="text-sm mb-4">Sekumpulan mafahim (persepsi) tentang kehidupan. Bersifat khas dari sebuah ideologi.</p>
+                            <div class="mt-4 font-bold text-red-600 p-2 bg-red-100 rounded">DILARANG DIAMBIL</div>
+                        </div>
+                        <div class="viz-box-column bg-gray-50 border-gray-200">
+                            <h5 class="font-bold text-gray-800 text-lg">Madaniyah (Bentuk Fisik)</h5>
+                            <p class="text-6xl my-4">⚙️</p>
+                            <div class="text-left space-y-2">
+                                <div class="p-2 bg-red-100 rounded border-l-4 border-red-500"><strong>Madaniyah Khas:</strong> Produk hadlarah (patung, pakaian khas). <span class="font-bold">Dilarang.</span></div>
+                                <div class="p-2 bg-green-100 rounded border-l-4 border-green-500"><strong>Madaniyah Umum:</strong> Produk sains & teknologi (komputer, lab). <span class="font-bold">Diperbolehkan.</span></div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 6,
+                title: "Peraturan Hidup",
+                pages: "Halaman 117-126",
+                summary: "Menegaskan Islam sebagai ideologi komprehensif yang mengatur seluruh aspek kehidupan manusia.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Cakupan Peraturan Islam</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Islam sebagai sebuah ideologi (mabda) memiliki peraturan yang komprehensif, mengatur seluruh aspek hubungan dalam kehidupan manusia.</p>
+                    <div class="flex flex-col items-center justify-center text-center">
+                        <div class="viz-box-flow result-box w-full md:w-1/2">
+                            <p class="font-bold text-xl">ISLAM (Mabda)</p>
+                            <small>Ideologi Kehidupan</small>
+                        </div>
+                        <div class="flex w-full justify-center"><div class="h-8 w-px bg-gray-400"></div></div>
+                        <div class="w-full h-px bg-gray-400"></div>
+                        <div class="flex flex-col md:flex-row justify-around w-full mt-8 gap-4">
+                            <div class="flex-1 text-center">
+                                <div class="h-8 w-px bg-gray-400 mx-auto"></div>
+                                <div class="viz-box-column bg-sky-50 border-sky-200">
+                                    <h5 class="font-bold text-sky-800">Hubungan dengan Pencipta</h5>
+                                    <p class="text-sm">(Aqidah, Ibadah)</p>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="h-8 w-px bg-gray-400 mx-auto"></div>
+                                <div class="viz-box-column bg-rose-50 border-rose-200">
+                                    <h5 class="font-bold text-rose-800">Hubungan dengan Diri Sendiri</h5>
+                                    <p class="text-sm">(Akhlak, Makanan, Pakaian)</p>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="h-8 w-px bg-gray-400 mx-auto"></div>
+                                <div class="viz-box-column bg-amber-50 border-amber-200">
+                                    <h5 class="font-bold text-amber-800">Hubungan dengan Sesama</h5>
+                                    <p class="text-sm">(Muamalah, Uqubat)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 7,
+                title: "Hukum Syara'",
+                pages: "Halaman 127-142",
+                summary: "Menjelaskan aspek teknis hukum Islam, seperti macam-macam hukum, As-Sunnah, dan legalisasi hukum.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Macam-macam Hukum Syariat</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Hukum Syara' adalah seruan Allah yang berkaitan dengan perbuatan manusia, yang terbagi menjadi lima kategori utama.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
+                        <div class="hukum-box bg-green-100 border-green-500">
+                            <h5 class="font-bold text-green-800">FARDLU</h5><p class="text-sm">Wajib</p>
+                        </div>
+                        <div class="hukum-box bg-emerald-100 border-emerald-500">
+                            <h5 class="font-bold text-emerald-800">MANDUB</h5><p class="text-sm">Dianjurkan</p>
+                        </div>
+                        <div class="hukum-box bg-gray-100 border-gray-500">
+                            <h5 class="font-bold text-gray-800">MUBAH</h5><p class="text-sm">Diperbolehkan</p>
+                        </div>
+                        <div class="hukum-box bg-yellow-100 border-yellow-500">
+                            <h5 class="font-bold text-yellow-800">MAKRUH</h5><p class="text-sm">Dibenci</p>
+                        </div>
+                        <div class="hukum-box bg-red-100 border-red-500">
+                            <h5 class="font-bold text-red-800">HARAM</h5><p class="text-sm">Terlarang</p>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 8,
+                title: "UUD & UU",
+                pages: "Halaman 143-152",
+                summary: "Membahas konsep konstitusi dalam Islam, di mana sumber hukum adalah syara' dan otoritas ada pada Khalifah.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.158.79.44 1.086M19.5 9.75l-.636 1.272a3 3 0 01-2.122 1.638l-1.272.636a3 3 0 01-1.638 2.122l-1.272.636a3 3 0 01-2.122 1.638l-.636 1.272a3 3 0 01-1.638 2.122l-.636 1.272a3 3 0 01-2.122 1.638L9.75 19.5m-6-6l.636-1.272a3 3 0 012.122-1.638l1.272-.636a3 3 0 011.638-2.122L9 9.75l.636-1.272a3 3 0 011.638-2.122l1.272-.636a3 3 0 012.122-1.638L15 3.75m-3 4.5a.75.75 0 00-1.5 0v3a.75.75 0 001.5 0v-3z" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Proses Legalisasi Hukum Islam</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Berbeda dengan sistem sekuler, sumber hukum dalam Islam adalah wahyu, yang kemudian diadopsi oleh Khalifah menjadi undang-undang yang mengikat.</p>
+                    <div class="flex flex-col items-center justify-center space-y-2 text-center">
+                        <div class="viz-box-flow w-full md:w-3/4"><p class="font-semibold">Al-Qur'an & As-Sunnah</p><small>Sumber Hukum Utama</small></div>
+                        <div class="arrow-down">↓</div>
+                        <div class="viz-box-flow w-full md:w-3/4"><p class="font-semibold">Ijtihad Para Mujtahid</p><small>Penggalian Hukum Rinci</small></div>
+                        <div class="arrow-down">↓</div>
+                        <div class="viz-box-flow w-full md:w-3/4"><p class="font-semibold">Khalifah (Kepala Negara)</p><small>Memiliki Otoritas Melegalisasi (Tabanni)</small></div>
+                        <div class="arrow-down">↓</div>
+                        <div class="viz-box-flow result-box w-full md:w-3/4"><p class="font-bold">Undang-Undang Negara</p><small>Hukum yang Diadopsi & Mengikat Umat</small></div>
+                    </div>`
+            },
+            {
+                id: 9,
+                title: "Rancangan UUD",
+                pages: "Halaman 153-215",
+                summary: "Menyajikan contoh konkret rancangan UUD untuk Daulah Islam (Khilafah) yang mencakup 191 pasal.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.158.79.44 1.086m-4.444-1.086L9 3.75v1.5M4.5 9.75v1.5M3 9.75l.75-1.5M3 12l.75-1.5m.75 1.5l.75 1.5M4.5 15l.75 1.5M6 18v-1.5m.75 1.5l.75-1.5M9 3.75l.75-1.5M12 3l.75-1.5M13.5 3.75l.75-1.5M15 5.25l.75-1.5M16.5 7.5l.75-1.5M18 9.75l.75-1.5M19.5 12l.75-1.5" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Struktur Negara Islam (Khilafah)</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Negara Islam memiliki 13 pilar utama yang bekerja secara sinergis untuk menerapkan syariat dan mengurus urusan umat, dipimpin oleh seorang Khalifah.</p>
+                    <div class="text-center p-4 overflow-x-auto">
+                        <div class="inline-block p-2 border-2 border-gray-700 rounded-lg bg-gray-200 font-bold org-chart-node">KHALIFAH (Kepala Negara)</div>
+                        <div class="w-px bg-gray-400 h-8 mx-auto"></div>
+                        <div class="flex justify-center gap-16">
+                            <div class="relative">
+                                <div class="w-px bg-gray-400 h-8 mx-auto absolute top-[-32px] left-1/2"></div>
+                                <div class="w-full h-px bg-gray-400 absolute top-[-32px] left-0 right-0"></div>
+                                <div class="inline-block p-2 border-2 border-emerald-600 rounded-lg bg-emerald-100 org-chart-node">Mu'awin Tafwidl<br><span class="font-normal text-sm">(Pembantu Utama)</span></div>
+                            </div>
+                            <div class="relative">
+                                <div class="w-px bg-gray-400 h-8 mx-auto absolute top-[-32px] left-1/2"></div>
+                                <div class="inline-block p-2 border-2 border-emerald-600 rounded-lg bg-emerald-100 org-chart-node">Mu'awin Tanfidz<br><span class="font-normal text-sm">(Pembantu Eksekutif)</span></div>
+                            </div>
+                        </div>
+                        <div class="w-px bg-gray-400 h-8 mx-auto"></div>
+                        <div class="w-full h-px bg-gray-400"></div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-8 relative">
+                            <div class="absolute top-[-32px] left-[8.33%] w-px h-8 bg-gray-400"></div>
+                            <div class="absolute top-[-32px] left-[25%] w-px h-8 bg-gray-400"></div>
+                            <div class="absolute top-[-32px] left-[41.66%] w-px h-8 bg-gray-400"></div>
+                            <div class="absolute top-[-32px] left-[58.33%] w-px h-8 bg-gray-400"></div>
+                            <div class="absolute top-[-32px] left-[75%] w-px h-8 bg-gray-400"></div>
+                            <div class="absolute top-[-32px] left-[91.66%] w-px h-8 bg-gray-400"></div>
+                            <div class="org-chart-node">Al-Wulat<br><span class="font-normal text-sm">(Gubernur)</span></div>
+                            <div class="org-chart-node">Amirul Jihad<br><span class="font-normal text-sm">(Pertahanan)</span></div>
+                            <div class="org-chart-node">Keamanan<br><span class="font-normal text-sm">(Dalam Negeri)</span></div>
+                            <div class="org-chart-node">Urusan Luar Negeri</div>
+                            <div class="org-chart-node">Perindustrian</div>
+                            <div class="org-chart-node">Al-Qadla<br><span class="font-normal text-sm">(Peradilan)</span></div>
+                            <div class="org-chart-node">Kemaslahatan Umat</div>
+                            <div class="org-chart-node">Baitul Mal<br><span class="font-normal text-sm">(Keuangan)</span></div>
+                            <div class="org-chart-node">Penerangan<br><span class="font-normal text-sm">(Informasi)</span></div>
+                            <div class="org-chart-node">Majelis Umat<br><span class="font-normal text-sm">(Syura & Muhasabah)</span></div>
+                            <div class="org-chart-node col-span-2">Jihaz Al-Idari<br><span class="font-normal text-sm">(Aparat Administrasi)</span></div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 10,
+                title: "Akhlak dalam Islam",
+                pages: "Halaman 216-232",
+                summary: "Menempatkan akhlak sebagai hasil dari keimanan dan ketaatan pada hukum, bukan dasar perjuangan.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>`,
+                details: `
+                    <h4 class="text-xl font-bold mb-2 text-center text-green-800 title-font">Akhlak adalah Buah, Akarnya adalah Sistem</h4>
+                    <p class="text-center text-sm text-gray-600 mb-6">Akhlak mulia bukanlah tujuan utama dakwah, melainkan hasil alami dari penerapan sistem Islam (Aqidah dan Syariah) secara menyeluruh.</p>
+                    <div class="flex items-center justify-center space-x-4 md:space-x-8">
+                        <div class="text-center viz-box p-4">
+                            <div class="text-6xl">🏛️</div>
+                            <p class="mt-2 font-semibold text-gray-700">AKARNYA ADALAH SISTEM</p>
+                            <p class="text-sm text-gray-500">(Aqidah & Syariah)</p>
+                        </div>
+                        <div class="text-5xl text-blue-500 font-bold">➔</div>
+                        <div class="text-center viz-box p-4">
+                            <div class="text-6xl">🌳</div>
+                            <p class="mt-2 font-semibold text-green-700">AKHLAK ADALAH BUAH</p>
+                            <p class="text-sm text-gray-500">(Jujur, Amanah, Sabar, dll)</p>
+                        </div>
+                    </div>
+                    <p class="mt-8 text-center text-gray-600">Mengarahkan dakwah hanya pada perbaikan akhlak adalah berbahaya karena dapat mengaburkan gambaran Islam yang utuh sebagai sebuah sistem kehidupan dan memalingkan umat dari perjuangan politik untuk menerapkan Islam secara kaffah (menyeluruh).</p>`
+            }
+        ];
+
+        let activeCharts = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('chapters-grid');
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalPages = document.getElementById('modal-pages');
+            const modalBody = document.getElementById('modal-body');
+
+            chaptersData.forEach(chapter => {
+                const card = document.createElement('div');
+                card.className = 'card rounded-lg shadow-md p-6 cursor-pointer text-center border-t-4 border-green-700';
+                card.innerHTML = `
+                    <div class="w-16 h-16 mx-auto mb-4 text-green-700">${chapter.icon}</div>
+                    <div class="card-content">
+                        <p class="text-sm font-semibold text-green-800">Bab ${chapter.id}</p>
+                        <h3 class="text-xl font-bold text-gray-800 mt-1 mb-2 title-font">${chapter.title}</h3>
+                        <p class="text-gray-600 text-sm">${chapter.summary}</p>
+                    </div>
+                    <div class="mt-4 text-xs text-gray-400">${chapter.pages}</div>
+                `;
+                card.addEventListener('click', () => openModal(chapter));
+                grid.appendChild(card);
+            });
+            
+            function openModal(chapter) {
+                activeCharts.forEach(chart => chart.destroy());
+                activeCharts = [];
+
+                modalTitle.textContent = `Bab ${chapter.id}: ${chapter.title}`;
+                modalPages.textContent = chapter.pages;
+                modalBody.innerHTML = chapter.details;
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                    if (chapter.id === 3) {
+                        createRadarCharts();
+                    }
+                }, 10);
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+
+            function createRadarCharts() {
+                const chartData = { labels: ['Spiritualitas', 'Ekonomi', 'Individu', 'Masyarakat', 'Negara'] };
+                const chartOptions = {
+                    scales: { r: { angleLines: { display: true }, suggestedMin: 0, suggestedMax: 5, pointLabels: { font: { size: 12 } }, ticks: { display: false, stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                };
+                activeCharts.push(new Chart(document.getElementById('islamChart').getContext('2d'), { type: 'radar', data: { ...chartData, datasets: [{ label: 'Islam', data: [5, 4, 4, 5, 5], fill: true, backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgb(59, 130, 246)', pointBackgroundColor: 'rgb(59, 130, 246)' }] }, options: chartOptions }));
+                activeCharts.push(new Chart(document.getElementById('kapitalismeChart').getContext('2d'), { type: 'radar', data: { ...chartData, datasets: [{ label: 'Kapitalisme', data: [1, 5, 5, 3, 2], fill: true, backgroundColor: 'rgba(107, 114, 128, 0.2)', borderColor: 'rgb(107, 114, 128)', pointBackgroundColor: 'rgb(107, 114, 128)' }] }, options: chartOptions }));
+                activeCharts.push(new Chart(document.getElementById('sosialismeChart').getContext('2d'), { type: 'radar', data: { ...chartData, datasets: [{ label: 'Sosialisme', data: [0, 4, 1, 4, 5], fill: true, backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgb(239, 68, 68)', pointBackgroundColor: 'rgb(239, 68, 68)' }] }, options: chartOptions }));
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
