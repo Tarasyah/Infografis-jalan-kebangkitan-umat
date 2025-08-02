@@ -18,8 +18,8 @@
         .landscape-layer {
             position: absolute;
             bottom: 0;
-            left: 0;
-            width: 100%;
+            left: -20%; /* Memberi buffer di sisi kiri */
+            width: 140%; /* Dilebarkan agar tidak lepas saat bergerak */
             height: 60%;
             background-repeat: no-repeat;
             background-position: bottom center;
@@ -136,16 +136,16 @@
             <p class="mt-12 mb-6 text-lg font-semibold">Pilih Jalan Perjuangan Anda:</p>
             
             <div class="flex flex-col sm:flex-row items-center gap-4">
-                <a href="https://www.nizhamul-islam.com" target="_blank" class="w-full sm:w-auto px-8 py-3 bg-white text-slate-900 font-bold rounded-lg shadow-lg hover:bg-transparent hover:text-white border-2 border-transparent hover:border-white transition-all duration-300 transform hover:scale-105">
+                <a href="./peraturanhidup.html" target="_blank" class="w-full sm:w-auto px-8 py-3 bg-white text-slate-900 font-bold rounded-lg shadow-lg hover:bg-transparent hover:text-white border-2 border-transparent hover:border-white transition-all duration-300 transform hover:scale-105">
                     Nizhamul Islam
                 </a>
-                <a href="infografis_takattul_hizbi_v2" class="w-full sm:w-auto px-8 py-3 border-2 border-white text-white font-bold rounded-lg shadow-lg hover:bg-white hover:text-slate-900 transition-colors duration-300 transform hover:scale-105">
+                <a href="./partaipolitik.html" class="w-full sm:w-auto px-8 py-3 border-2 border-white text-white font-bold rounded-lg shadow-lg hover:bg-white hover:text-slate-900 transition-colors duration-300 transform hover:scale-105">
                     Takattul
                 </a>
             </div>
         </main>
         
-        <footer class="relative z-50 text-center w-full pb-8 pt-4">
+        <footer class="relative z-50 text-center w-full pb-8 md:pb-6 pt-4">
             <p class="text-sm text-slate-400">Dirancang dengan inspirasi dari manhaj yang lurus.</p>
         </footer>
     </div>
